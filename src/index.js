@@ -13,7 +13,6 @@ function createWindow() {
     width: 800, height: 600,
   })
 
-ddd
   // メインウィンドウに表示するURLを指定します
   // （今回はmain.jsと同じディレクトリのindex.html）
   // mainWindow.loadFile('/src/railsApp/app/views/videos/index.html.erb');
