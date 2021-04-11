@@ -62,6 +62,7 @@
   </table>
   <!-- <p id="local-player-name" class="player-name"></p> -->
   <div id="local-player" class="player "></div>
+  <div class="badge badge-pill badge-dark"><%= current_user.uid%>(あなた)</div>
 </div>
 
 <%= javascript_include_tag "agora-rtm-sdk/index.js" %>
@@ -155,8 +156,8 @@
       if (mediaType === 'video') {
 
         if ($('#local-player' + uid).length === 0) {
-          $('#local-player').append('<div id="agora_remote' + uid +
-            '" style="float:left; width:810px;height:607px;display:inline-block;"></div>');
+          $('#local-player').append('<div class="player" id="agora_remote' + uid +
+            '" style="float:left; height:100%;display:inline-block; margin-top:50px;"></div>');
         }
         user.videoTrack.play('agora_remote' + uid);
       }
@@ -171,8 +172,8 @@
       if (mediaType === 'video') {
 
         if ($('#local-player' + uid).length === 0) {
-          $('#local-player').append('<div id="agora_remote' + uid +
-            '" style="float:left; width:810px;height:607px;display:inline-block;"></div>');
+          $('#local-player').append('<div class="player" id="agora_remote' + uid +
+            '" style="float:left; height:100%;display:inline-block;"></div>');
         }
         // user.videoTrack.play('agora_remote' + uid);
         localTracks.play('agora_remote' + uid);
