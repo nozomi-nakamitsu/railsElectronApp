@@ -11,3 +11,10 @@ import "bootstrap/dist/js/bootstrap"
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
+require('jquery')
+  //= require agora-rtm-sdk/index.js
+require ('agora.js')
+// import "./agora.js"
+// require ('test.js')
+//= require jquery_ujs
+//= require_tree .
