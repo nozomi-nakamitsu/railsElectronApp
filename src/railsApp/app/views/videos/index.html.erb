@@ -44,6 +44,11 @@
   <button id="muteON" type="button" class="btn btn-info" style="color: white;" onclick="muteON()">ミュートON</button>
   <button id="muteOFF" type="button" class="btn btn-info stopScreensharing" style="color: white;"
     onclick="muteOFF()">ミュートOFF</button>
+  <button id="videoOFF" type="button" class="btn btn-secondary" style="color: white;"
+    onclick="videoOFF()">ビデオOFF</button>
+  <button id="videoON" type="button" class="btn btn-secondary stopScreensharing" style="color: white;"
+    onclick="videoON()">ビデオON</button>
+
   <table class="table my-5 showUserList" id="user-list">
     <thead>
       <tr>
@@ -584,11 +589,12 @@
     const level = localTracks.audioTrack.getVolumeLevel();
     console.log("local stream audio level", level);
     const mute = localTracks.audioTrack.setVolume(0);
-    console.log("local stream audio level", mute);
+
     var muteON = document.getElementById("muteON");
     muteON.classList.add("stopScreensharing");
     var muteOFF = document.getElementById("muteOFF");
     muteOFF.classList.remove("stopScreensharing");
+    console.log("local stream audio level", mute);
   }
 
   // ローカルでのミュート解除機能
@@ -601,5 +607,25 @@
     muteOFF.classList.add("stopScreensharing");
     var muteON = document.getElementById("muteON");
     muteON.classList.remove("stopScreensharing");
+  }
+
+
+  //ビデオOFF機能
+  function videoOFF() {
+    localTracks.videoTrack.setEnabled(false);
+    console.log("ビデオOFF");
+    var videoOFF = document.getElementById("videoOFF");
+    videoOFF.classList.add("stopScreensharing");
+    var videoON = document.getElementById("videoON");
+    videoON.classList.remove("stopScreensharing");
+  }
+  //ビデオON機能
+  function videoON() {
+    localTracks.videoTrack.setEnabled(true);
+    var videoOFF = document.getElementById("videoOFF");
+    videoOFF.classList.remove("stopScreensharing");
+    var videoON = document.getElementById("videoON");
+    videoON.classList.add("stopScreensharing");
+    console.log("ビデオON");
   }
 </script>
