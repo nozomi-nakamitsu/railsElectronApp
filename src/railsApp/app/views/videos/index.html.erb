@@ -1,4 +1,4 @@
-<h1><%= @video %></h1>
+<%# 
 <div class="container-fluid banner">
   <p class="title">Agora WebSDK サンプルアプリ</p>
   <div class="user-info">
@@ -14,9 +14,8 @@
       </path>
     </svg>
   </a>
-  <p id="logout_btn" class="logout_btn" onclick="logout()">ログアウト</p>
-</div>
 
+</div>
 
 <div id="div_join" role="main" class="ui-content">
   <div class="ui-field-contain">
@@ -29,7 +28,7 @@
   </fieldset>
 </div>
 
-
+%>
 
 <div class="container after-logined" id="after-logined">
   <div class="card-deck">
@@ -140,10 +139,10 @@
     clientRtm.on("ConnectionStateChange", function (newState, reason) {
       console.log("on connection state changed to " + newState + " reason:" + reason);
     });
-    uidRtm = $("#loginId").val();
+    uidRtm = document.getElementById("uid").innerHTML
     //channelName=uidRtm;
-    options.uid = $("#loginId").val();
-    options.channel = $("#loginId").val();
+    options.uid = document.getElementById("uid").innerHTML
+    options.channel = document.getElementById("uid").innerHTML
     clientRtm.login({
       uid: options.uid,
       token: options.token
@@ -155,10 +154,10 @@
         $("#show-uid").text("ログインユーザーID：" + options.uid);
         var showUserList = document.getElementById("after-logined");
         showUserList.classList.remove("after-logined");
-        var LoginForm = document.getElementById("div_join");
-        LoginForm.classList.add("login-form");
-        var logoutBtn = document.getElementById("logout_btn");
-        logoutBtn.classList.remove("logout_btn");
+        // var LoginForm = document.getElementById("div_join");
+        // LoginForm.classList.add("login-form");
+        // var logoutBtn = document.getElementById("logout_btn");
+        // logoutBtn.classList.remove("logout_btn");
         console.log(clientRtm);
       }).catch(function (err) {
         console.error("AgoraRTM client join failure, ", err);
@@ -292,10 +291,10 @@
     console.log("client leaves channel success");
     var showUserList = document.getElementById("after-logined");
     showUserList.classList.remove("after-logined");
-    var LoginForm = document.getElementById("div_join");
-    LoginForm.classList.add("login-form");
-    var logoutBtn = document.getElementById("logout_btn");
-    logoutBtn.classList.remove("logout_btn");
+    // var LoginForm = document.getElementById("div_join");
+    // LoginForm.classList.add("login-form");
+    // var logoutBtn = document.getElementById("logout_btn");
+    // logoutBtn.classList.remove("logout_btn");
     // window.location.href = '/Users/nakamitsunozomi/Desktop/my-electron-app/src/AgoraWebSDK-NG/Demo/index.html?uid=' + options.uid;
     removeVideo()
   }
@@ -450,20 +449,36 @@
     $(".user-info").remove();
     var showUserList = document.getElementById("after-logined");
     showUserList.classList.add("after-logined");
-    var LoginForm = document.getElementById("div_join");
-    LoginForm.classList.remove("login-form");
+    // var LoginForm = document.getElementById("div_join");
+    // LoginForm.classList.remove("login-form");
     console.log("RTM Logout completed ");
   }
 
-  // 配列表示
+  // index.htmlが表示されたときの動作」
   window.onload = function () {
     var channels = [];
-    // 配列表示
+    // チャンネル配列表示
     channels.forEach(function (channelName) {
       console.log(channelName);
       $("#output").append("<p>" + channelName + "</p>")
     });
+    //チャンネルへのログインする
+    login();
+    // ログアウト処理
+    $("#logout").on("confirm:complete", function (e) {
+      if (e.originalEvent.detail[0]) {
+        // user confirmed!
+        logout();
+      } else {
+        // user canceled!
+        console.log("ログアウトしてない");
+      }
+    });
   }
+
+
+
+
   var channels = [];
 
   function addName() {

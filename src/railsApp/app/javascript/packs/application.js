@@ -16,4 +16,5 @@ require('jquery')
 require ('agora.js')
 // import "./agora.js"
 // require ('test.js')
+//= require jquery_ujs
 //= require_tree .
