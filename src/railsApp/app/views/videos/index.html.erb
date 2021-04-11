@@ -238,40 +238,58 @@
   // 部屋から退出する
   async function leave() {
     // document.getElementById("leave").disabled = true;
-    for (trackName in localTracks) {
-      console.log(trackName);
-      console.log(localTracks);
-      console.log(localTracks[trackName]);
-      var track = localTracks[trackName];
-      if (track) {
-        track.stop();
-        track.close();
-        localTracks[trackName] = undefined;
+    const processA = async function () {
+      //  ビデオと音声を終了する
+      for (trackName in localTracks) {
+        console.log(trackName);
+        console.log(localTracks);
+        console.log(localTracks[trackName]);
+        var track = localTracks[trackName];
+        if (track) {
+          track.stop();
+          track.close();
+          localTracks[trackName] = undefined;
+          clientRtm
+        }
       }
+
+      // 画面共有を終了する
+      var track2 = localTracks2["videoTrack"];
+      if (track2 != null) {
+        handleTrackEnded();
+      }
+
     }
-    // 画面共有を終了する
-    var track2 = localTracks2["videoTrack"];
-    if (track2 != null) {
-      handleTrackEnded();
+
+    const processB = async function () {
+      // remove remote users and player views
+      remoteUsers = {};
+
+      // leave the channel
+      await client.leave();
+
     }
 
-    // remove remote users and player views
-    remoteUsers = {};
+    const processC = async function () {
+      console.log("client leaves channel success");
+      var showUserList = document.getElementById("after-logined");
+      debugger
+      showUserList.classList.remove("after-logined");
+      // home戻るボタンを非表示
+      var redirectToHome = document.getElementById("home");
+      redirectToHome.classList.add("showHome");
+      $("#channelName").text("チャネル名:" + channelName);
+      removeVideo()
+    }
+    // ABCの順番で処理を回す
+    const processAll = async function () {
+      await processA()
+      await processB()
+      await processC()
+    }
 
-    // leave the channel
-    await client.leave();
+    processAll()
 
-    // await logout();
-
-    // await reset();
-    console.log("client leaves channel success");
-    var showUserList = document.getElementById("after-logined");
-    showUserList.classList.remove("after-logined");
-    // home戻るボタンを非表示
-    var redirectToHome = document.getElementById("home");
-    redirectToHome.classList.add("showHome");
-    $("#channelName").text("チャネル名:" + channelName);
-    removeVideo()
   }
   // ログインしているユーザー名を取得
   function refresh() {
@@ -376,19 +394,6 @@
 
 
   function remoteJoin(uid) {
-    // client.on("user-published", async (uid, mediaType) => {
-    //     await client.subscribe(uid, mediaType);
-    //     if (mediaType === 'video') {
-
-    //         if ($('div#video #agora_remote' + uid).length === 0) {
-    //             $('div#video').append('<div id="agora_remote' + uid + '" style="float:left; width:810px;height:607px;display:inline-block;"></div>');
-    //         }
-    //         user.videoTrack.play('agora_remote' + uid);
-    //     }
-    //     if (mediaType === 'audio') {
-    //         user.audioTrack.play();
-    //     }
-    // });
     showVideo(uid)
   }
 
