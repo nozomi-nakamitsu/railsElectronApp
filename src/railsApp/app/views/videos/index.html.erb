@@ -41,6 +41,9 @@
     onclick="screensharing()">画面共有する</button>
   <button id="stopScreensharing" type="button" class="btn btn-warning stopScreensharing" style="color: white;"
     onclick="handleTrackEnded()">画面共有を停止する</button>
+  <button id="muteON" type="button" class="btn btn-info" style="color: white;" onclick="muteON()">ミュートON</button>
+  <button id="muteOFF" type="button" class="btn btn-info stopScreensharing" style="color: white;"
+    onclick="muteOFF()">ミュートOFF</button>
   <table class="table my-5 showUserList" id="user-list">
     <thead>
       <tr>
@@ -401,7 +404,8 @@
           console.log(senderId + "invited you.");
           $(".banner").append('<div class="alert alert-primary" role="alert">' + senderId +
             'があなたを招待しました<button class="btn btn-primary" onclick="remoteJoin(\'' + senderId +
-            '\')">参加する</button> <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+            '\')">参加する</button> <button type="button" class="close" data-dismiss="alert">&times;</button></div>'
+          );
           options.channel = senderId;
         }
       }
@@ -491,7 +495,8 @@
     while (i < channels.length) {
       output.innerHTML += "<p id='" + channels[i] + "'>" + channels[i] +
         "<span class='btn btn-info m-1' onclick= showVideo(" + '"' + channels[i] + '"' +
-        ")>参加する</span><span class='btn btn-info m-1' onclick= (" + '"' + channels[i] + '"' + ")>削除する</span></p>";
+        ")>参加する</span><span class='btn btn-info m-1' onclick= (" + '"' + channels[i] + '"' +
+        ")>削除する</span></p>";
       i = i + 1;
     }
 
@@ -572,5 +577,29 @@
       window.open(url, '_blank')
     }
 
+  }
+
+  // ローカルでのミュート機能
+  function muteON() {
+    const level = localTracks.audioTrack.getVolumeLevel();
+    console.log("local stream audio level", level);
+    const mute = localTracks.audioTrack.setVolume(0);
+    console.log("local stream audio level", mute);
+    var muteON = document.getElementById("muteON");
+    muteON.classList.add("stopScreensharing");
+    var muteOFF = document.getElementById("muteOFF");
+    muteOFF.classList.remove("stopScreensharing");
+  }
+
+  // ローカルでのミュート解除機能
+  function muteOFF() {
+    const level = localTracks.audioTrack.getVolumeLevel();
+    console.log("local stream audio level", level);
+    const mute = localTracks.audioTrack.setVolume(100);
+    console.log("local stream audio level", mute);
+    var muteOFF = document.getElementById("muteOFF");
+    muteOFF.classList.add("stopScreensharing");
+    var muteON = document.getElementById("muteON");
+    muteON.classList.remove("stopScreensharing");
   }
 </script>
