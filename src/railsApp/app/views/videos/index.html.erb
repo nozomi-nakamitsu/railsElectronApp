@@ -1,42 +1,10 @@
-<%# 
-<div class="container-fluid banner">
-  <p class="title">Agora WebSDK サンプルアプリ</p>
-  <div class="user-info">
-    <p id="show-uid"></p>
-  </div>
-  <p><a href="#" onclick="history.back(); return false;">前のページにもどる</a></p>
-  <a style="color: rgb(255, 255, 255);fill: rgb(255, 255, 255);fill-rule: evenodd; position: absolute; right: 10px; top: 4px;"
-    class="Header-link " href="https://github.com/AgoraIO-Community/AgoraWebSDK-NG/tree/master/Demo">
-    <svg class="octicon octicon-mark-github v-align-middle" height="32" viewBox="0 0 16 16" version="1.1" width="32"
-      aria-hidden="true">
-      <path fill-rule="evenodd"
-        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
-      </path>
-    </svg>
-  </a>
-
-</div>
-
-<div id="div_join" role="main" class="ui-content">
-  <div class="ui-field-contain">
-    <label for="entry_comment">UID:</label>
-    <input type="text" id="loginId" size="15" pattern="^[0-9A-Za-z]+$" />
-  </div>
-  <fieldset class="ui-grid-a">
-    <div class="ui-block-a"><button id="login" onclick="login()" class="ui-btn ui-btn-b"
-        style='float: right;width: 200px;'>Login</button></div>
-  </fieldset>
-</div>
-
-%>
-
-<div class="container after-logined" id="after-logined">
+<div class="container" id="after-logined">
   <div class="card-deck">
     <div class="card demo-card">
       <div class="card-body">
         <h5 class="card-title">ビデオ通話に参加する</h5>
         <p class="card-text"></p>
-        <a href="./basicVideoCall/index.html" class=" btn btn-primary demo-card-btn">Go Now</a>
+        <%= link_to "Go Now", "/BasicVieoCall" ,class:"btn btn-primary demo-card-btn"%>
       </div>
     </div>
     <div class="card demo-card">
@@ -152,8 +120,8 @@
         receiveChannelMessage();
         console.log("ログインできました");
         $("#show-uid").text("ログインユーザーID：" + options.uid);
-        var showUserList = document.getElementById("after-logined");
-        showUserList.classList.remove("after-logined");
+        // var showUserList = document.getElementById("after-logined");
+        // showUserList.classList.remove("after-logined");
         // var LoginForm = document.getElementById("div_join");
         // LoginForm.classList.add("login-form");
         // var logoutBtn = document.getElementById("logout_btn");
@@ -265,7 +233,6 @@
       console.log(trackName);
       console.log(localTracks);
       console.log(localTracks[trackName]);
-      // debugger
       var track = localTracks[trackName];
       if (track) {
         track.stop();
@@ -291,11 +258,10 @@
     console.log("client leaves channel success");
     var showUserList = document.getElementById("after-logined");
     showUserList.classList.remove("after-logined");
-    // var LoginForm = document.getElementById("div_join");
-    // LoginForm.classList.add("login-form");
-    // var logoutBtn = document.getElementById("logout_btn");
-    // logoutBtn.classList.remove("logout_btn");
-    // window.location.href = '/Users/nakamitsunozomi/Desktop/my-electron-app/src/AgoraWebSDK-NG/Demo/index.html?uid=' + options.uid;
+    // home戻るボタンを非表示
+    var redirectToHome = document.getElementById("home");
+    redirectToHome.classList.add("showHome");
+    $("#channelName").text("チャネル名:" + channelName);
     removeVideo()
   }
   // ログインしているユーザー名を取得
@@ -386,6 +352,9 @@
     showVideo.classList.remove("new-mtg-view");
     var afterLogined = document.getElementById("after-logined");
     afterLogined.classList.add("after-logined");
+    // home戻るボタンを表示
+    var redirectToHome = document.getElementById("home");
+    redirectToHome.classList.remove("showHome");
     $("#channelName").text("チャネル名:" + channelName);
   }
   // video画面非表示
@@ -472,6 +441,14 @@
       } else {
         // user canceled!
         console.log("ログアウトしてない");
+      }
+    });
+    // ホーム画面へのリダイレクト処理
+    $("#home").on("confirm:complete", function (e) {
+      if (e.originalEvent.detail[0]) {
+        leave();
+      } else {
+        console.log("ホームに戻らない🥺");
       }
     });
   }

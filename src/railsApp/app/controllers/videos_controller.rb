@@ -3,4 +3,8 @@ class VideosController < ApplicationController
     def index
         @video="ここはルートです"
     end
+
+    def  BasicVieoCall
+        @video="ここはルートです"
+    end
 end
