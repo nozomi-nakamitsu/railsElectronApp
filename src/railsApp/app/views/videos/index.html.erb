@@ -4,7 +4,7 @@
       <div class="card-body">
         <h5 class="card-title">ビデオ通話に参加する</h5>
         <p class="card-text"></p>
-        <a href="./basicVideoCall/index.html" class=" btn btn-primary demo-card-btn">Go Now</a>
+        <%= link_to "Go Now", "/BasicVieoCall" ,class:"btn btn-primary demo-card-btn"%>
       </div>
     </div>
     <div class="card demo-card">
@@ -233,7 +233,6 @@
       console.log(trackName);
       console.log(localTracks);
       console.log(localTracks[trackName]);
-      // debugger
       var track = localTracks[trackName];
       if (track) {
         track.stop();
@@ -259,11 +258,10 @@
     console.log("client leaves channel success");
     var showUserList = document.getElementById("after-logined");
     showUserList.classList.remove("after-logined");
-    // var LoginForm = document.getElementById("div_join");
-    // LoginForm.classList.add("login-form");
-    // var logoutBtn = document.getElementById("logout_btn");
-    // logoutBtn.classList.remove("logout_btn");
-    // window.location.href = '/Users/nakamitsunozomi/Desktop/my-electron-app/src/AgoraWebSDK-NG/Demo/index.html?uid=' + options.uid;
+    // home戻るボタンを非表示
+    var redirectToHome = document.getElementById("home");
+    redirectToHome.classList.add("showHome");
+    $("#channelName").text("チャネル名:" + channelName);
     removeVideo()
   }
   // ログインしているユーザー名を取得
