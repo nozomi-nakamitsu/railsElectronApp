@@ -1,4 +1,4 @@
-<div class="container after-logined" id="after-logined">
+<div class="container" id="after-logined">
   <div class="card-deck">
     <div class="card demo-card">
       <div class="card-body">
@@ -120,8 +120,8 @@
         receiveChannelMessage();
         console.log("ログインできました");
         $("#show-uid").text("ログインユーザーID：" + options.uid);
-        var showUserList = document.getElementById("after-logined");
-        showUserList.classList.remove("after-logined");
+        // var showUserList = document.getElementById("after-logined");
+        // showUserList.classList.remove("after-logined");
         // var LoginForm = document.getElementById("div_join");
         // LoginForm.classList.add("login-form");
         // var logoutBtn = document.getElementById("logout_btn");
@@ -354,6 +354,9 @@
     showVideo.classList.remove("new-mtg-view");
     var afterLogined = document.getElementById("after-logined");
     afterLogined.classList.add("after-logined");
+    // home戻るボタンを表示
+    var redirectToHome = document.getElementById("home");
+    redirectToHome.classList.remove("showHome");
     $("#channelName").text("チャネル名:" + channelName);
   }
   // video画面非表示
@@ -440,6 +443,14 @@
       } else {
         // user canceled!
         console.log("ログアウトしてない");
+      }
+    });
+    // ホーム画面へのリダイレクト処理
+    $("#home").on("confirm:complete", function (e) {
+      if (e.originalEvent.detail[0]) {
+        leave();
+      } else {
+        console.log("ホームに戻らない🥺");
       }
     });
   }

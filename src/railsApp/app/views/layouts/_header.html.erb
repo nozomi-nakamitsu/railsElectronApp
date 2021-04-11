@@ -1,12 +1,12 @@
   <%# ナブバー %>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">VideoChatApp
+    <p class="navbar-brand">VideoChatApp
       <% if user_signed_in? %>
       <span class="navbar-text ml-5">
         UID: <span id="uid"><%= current_user.uid%></span>
       </span>
       <% end %>
-    </a>
+    </p>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -16,7 +16,8 @@
         <% if user_signed_in? %>
         <!-- ログイン時 -->
         <li class="nav-item ">
-          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+          <%# <a class="nav-link" href="/">Homeへ戻る <span class="sr-only">(current)</span></a>%>
+          <%= link_to "Homeへ戻る", "/",  data: { confirm: "今参加しているミーティングから退出することになるけどええか？ぴえん🥺" } ,class:"nav-link showHome",id:"home"%>
         </li>
         <li class="nav-item">
           <%= link_to "アカウント編集", edit_user_registration_path ,class:"nav-link"%>
