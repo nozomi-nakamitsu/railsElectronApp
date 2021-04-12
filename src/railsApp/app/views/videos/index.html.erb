@@ -273,7 +273,6 @@
     const processC = async function () {
       console.log("client leaves channel success");
       var showUserList = document.getElementById("after-logined");
-      debugger
       showUserList.classList.remove("after-logined");
       // home戻るボタンを非表示
       var redirectToHome = document.getElementById("home");
@@ -393,8 +392,10 @@
   }
 
 
-  function remoteJoin(uid) {
-    showVideo(uid)
+  async function remoteJoin(uid) {
+    await showVideo(uid);
+    await $(".banner").remove();
+
   }
 
   function receiveChannelMessage() {
@@ -476,18 +477,27 @@
   function addName() {
     var input = document.getElementById("text_name");
     var output = document.getElementById("output");
-    channels.push(input.value); // 配列に要素を追加
-    output.innerHTML = "";
 
-    // 配列の要素を先頭から順番にすべて出力
-    var i = 0;
-    while (i < channels.length) {
-      output.innerHTML += "<p id='" + channels[i] + "'> " + channels[i] +
-        "<span class='btn btn-info m-1' onclick= showVideo(" + '"' + channels[i] + '"' +
-        ")>参加する</span><span class='btn btn-info m-1' onclick= removeChannel(" + '"' + channels[i] + '"' +
-        ")>削除する</span></p>";
-      i = i + 1;
+    if (isHanEisu(input.value)) {
+      channels.push(input.value); // 配列に要素を追加
+      output.innerHTML = "";
+
+      // 配列の要素を先頭から順番にすべて出力
+      var i = 0;
+      while (i < channels.length) {
+        output.innerHTML += "<p id='" + channels[i] + "'> " + channels[i] +
+          "<span class='btn btn-info m-1' onclick= showVideo(" + '"' + channels[i] + '"' +
+          ")>参加する</span><span class='btn btn-info m-1' onclick= removeChannel(" + '"' + channels[i] + '"' +
+          ")>削除する</span></p>";
+        i = i + 1;
+      }
+    } else {
+      $(".banner").append(
+        '<div class="alert alert-danger" role="alert">チャンネル名は半角英数字で記入してくださいね🥺<button type="button" class="close" data-dismiss="alert">&times;</button> </div>'
+      );
     }
+
+
   }
 
 
@@ -633,5 +643,14 @@
     var videoON = document.getElementById("videoON");
     videoON.classList.add("stopScreensharing");
     console.log("ビデオON");
+  }
+  // チャンネル名が半角英数字かチェックする
+  function isHanEisu(str) {
+    str = (str == null) ? "" : str;
+    if (str.match(/^[A-Za-z0-9]*$/)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 </script>
