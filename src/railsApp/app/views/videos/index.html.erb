@@ -273,7 +273,6 @@
     const processC = async function () {
       console.log("client leaves channel success");
       var showUserList = document.getElementById("after-logined");
-      debugger
       showUserList.classList.remove("after-logined");
       // home戻るボタンを非表示
       var redirectToHome = document.getElementById("home");
@@ -393,8 +392,10 @@
   }
 
 
-  function remoteJoin(uid) {
-    showVideo(uid)
+  async function remoteJoin(uid) {
+    await showVideo(uid);
+    await $(".banner").remove();
+
   }
 
   function receiveChannelMessage() {
