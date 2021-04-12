@@ -61,8 +61,8 @@
     </tbody>
   </table>
   <!-- <p id="local-player-name" class="player-name"></p> -->
-  <div id="local-player" class="player "></div>
-  <div class="badge badge-pill badge-dark"><%= current_user.uid%>(あなた)</div>
+  <div id="local-player" class="player ">
+  </div>
 </div>
 
 <%= javascript_include_tag "agora-rtm-sdk/index.js" %>
@@ -225,7 +225,7 @@
 
     // play local video track
     localTracks.videoTrack.play("local-player");
-
+    showMyUid();
     // publish local tracks to channel
     console.log(Object.values(localTracks));
     // debugger
@@ -467,6 +467,8 @@
         console.log("ホームに戻らない🥺");
       }
     });
+
+
   }
 
 
@@ -627,22 +629,24 @@
 
 
   //ビデオOFF機能
-  function videoOFF() {
-    localTracks.videoTrack.setEnabled(false);
+  async function videoOFF() {
+    await localTracks.videoTrack.setEnabled(false);
     console.log("ビデオOFF");
     var videoOFF = document.getElementById("videoOFF");
     videoOFF.classList.add("stopScreensharing");
     var videoON = document.getElementById("videoON");
     videoON.classList.remove("stopScreensharing");
+    await showMyUid();
   }
   //ビデオON機能
-  function videoON() {
-    localTracks.videoTrack.setEnabled(true);
+  async function videoON() {
+    await localTracks.videoTrack.setEnabled(true);
     var videoOFF = document.getElementById("videoOFF");
     videoOFF.classList.remove("stopScreensharing");
     var videoON = document.getElementById("videoON");
     videoON.classList.add("stopScreensharing");
     console.log("ビデオON");
+    await showMyUid();
   }
   // チャンネル名が半角英数字かチェックする
   function isHanEisu(str) {
@@ -653,4 +657,36 @@
       return false;
     }
   }
+
+  // 自分の名前を表示
+  function showMyUid() {
+    $(".badge").remove();
+    // trackID取得
+    var trackId = localTracks.videoTrack.getTrackId();
+    $("[id*='agora-video-player-" + trackId + '\'' + ']').after('<div class="badge badge-pill badge-dark">' +
+      options.uid + '(あなた)</div>');
+  }
+
+  // // 自分の名前を表示
+  // function showMyUid() {
+  //   const removeDefaultBadge = async function () {
+  //     $(".badge").remove();
+  //   }
+  //   debugger
+  //   // trackID取得
+  //   const getTrackId = async function () {
+  //     var trackId = localTracks.videoTrack.getTrackId();
+  //     await $("[id*='agora-video-player-" + trackId + '\'' + ']').after(
+  //       '<div class="badge badge-pill badge-dark">' +
+  //       options.uid + '(あなた)</div>');
+  //   }
+
+  //   // 順番で処理を回す
+  //   const processAll = async function () {
+  //     await removeDefaultBadge()
+  //     await getTrackId()
+  //   }
+  //   processAll()
+
+  // }
 </script>
