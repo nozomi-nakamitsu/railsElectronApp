@@ -222,8 +222,6 @@ $(document).on('turbolinks:load', function() {
         var txt;
         if (data[i] != options.uid) {
           txt = data[i];
-          // $('#useradd').append('<tr><th scope="row"><span id="senderId">' + txt +
-          //   '</span> <button type="button" class="btn btn-success mx-3" id=txt >招待する</button></th></tr>');
         $('#useradd').append(`<tr><th scope="row"><span id="senderId">${txt}</span> <button type="button" class="btn btn-success mx-3" id="${txt}${i}" >招待する</button></th></tr>`)
         }
         (function (n) {
