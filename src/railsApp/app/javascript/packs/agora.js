@@ -436,10 +436,6 @@ $(document).on('turbolinks:load', function() {
       const screenTrack = await AgoraRTC.createScreenVideoTrack();
       await screenClient.publish(screenTrack);
       console.log('screenTrack', screenTrack)
-      const playerContainer = document.createElement('div');
-      playerContainer.id = myShareUid.toString();
-      playerContainer.style.width = '200px';
-      playerContainer.style.height = '200px';
     // 画面共有終了ボタン表示
       var stopScreensharing = document.getElementById("stopScreensharing");
       stopScreensharing.classList.remove("stopScreensharing");
