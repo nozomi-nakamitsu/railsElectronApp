@@ -7,13 +7,15 @@
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <script src="https://download.agora.io/sdk/web/AgoraRTC_N-4.1.0.js"></script>
+  <%# <script src="https://download.agora.io/sdk/web/AgoraRTC_N-4.1.0.js"></script> %>
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 </head>
 
 <body>
   </p><%= render 'layouts/header' %>
+  <%= javascript_include_tag "agora-rtm-sdk/index.js" %>
+  <%= javascript_include_tag "agora-rtc-sdk-ng/AgoraRTC_N-production.js" %>
   <%= yield %>
 </body>
 
