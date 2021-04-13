@@ -210,7 +210,7 @@ $(document).on('turbolinks:load', function() {
     window.location.reload();
   }
   // ログインしているユーザー名を取得
-  function refresh() {
+  async function refresh() {
     $('#useradd').empty();
     console.log(clientRtm);
     var result = new Promise(function (resolve) {
@@ -222,13 +222,13 @@ $(document).on('turbolinks:load', function() {
         var txt;
         if (data[i] != options.uid) {
           txt = data[i];
-          $('#useradd').append('<tr><th scope="row"><span id="senderId">' + txt +
-            '</span> <button type="button" class="btn btn-success mx-3" id="call">招待する</button></th></tr>');
-            $('#call').on('click', function() {
-              var txt= document.getElementById("senderId").innerHTML
-               call(txt);
-             });
+        $('#useradd').append(`<tr><th scope="row"><span id="senderId">${txt}</span> <button type="button" class="btn btn-success mx-3" id="${txt}${i}" >招待する</button></th></tr>`)
         }
+        (function (n) {
+          $("#"+txt + i).click(function(){
+               call(n);
+          });
+      })(txt);
       }
     });
   }
