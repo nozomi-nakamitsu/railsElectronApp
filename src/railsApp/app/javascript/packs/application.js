@@ -13,7 +13,8 @@ Turbolinks.start()
 ActiveStorage.start()
 require('jquery')
   //= require agora-rtm-sdk/index.js
-require ('agora.js')
+  //= require agora-rtc-sdk-ng/AgoraRTC_N-production.js
+// require ('agora.js')
 // import "./agora.js"
 // require ('test.js')
 //= require jquery_ujs
