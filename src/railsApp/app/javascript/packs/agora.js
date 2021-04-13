@@ -1,8 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('hello');
-  });
-
-  $(document).on('turbolinks:load', function() {
+$(document).on('turbolinks:load', function() {
   var client = AgoraRTC.createClient({
     mode: "live",
     codec: "vp8",
@@ -34,17 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
   var random = Math.floor(Math.random() * 99999) + 1;
   var uidRtm;
 
-
-  var client2 = AgoraRTC.createClient({
-    mode: "live",
-    codec: "vp8",
-    role: "host"
-  });
-
-  var localTracks2 = {
-    videoTrack: null,
-    audioTrack: null
-  };
 
   function login() {
     clientRtm = AgoraRTM.createInstance(options.appid);
@@ -173,21 +158,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 部屋から退出する
   async function leave() {
-    // document.getElementById("leave").disabled = true;
     console.log(localTracks);
     const processA = async function () {
-      //  ビデオと音声を終了する
-      // for (trackName in localTracks) {
-        // console.log(trackName);
-        // console.log(localTracks);
-        // console.log(localTracks[trackName]);
-        // var track = localTracks[trackName];
-        // if (track) {
-        //   track.stop();
-        //   track.close();
-        //   localTracks[trackName] = undefined;
-        //   clientRtm
-        // }
          //  ビデオを終了する
         console.log(localTracks.videoTrack);
         var trackVideo = localTracks.videoTrack
@@ -206,14 +178,6 @@ document.addEventListener('DOMContentLoaded', () => {
           trackAudio = undefined;
           clientRtm
         }
-      // }
-
-      // 画面共有を終了する
-      // var track2 = screenTrack["videoTrack"];
-      // if (track2 != null) {
-      //   handleTrackEnded();
-      // }
-
     }
 
     const processB = async function () {
@@ -247,11 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   // ログインしているユーザー名を取得
   function refresh() {
-    // const clientRtm = AgoraRTM.createInstance(options.appid)
-    // const channelRtm = clientRtm.createChannel(options.channel_rtm)
     $('#useradd').empty();
-    // var client = AgoraRTC.createClient({ mode: "live", codec: "vp8", role: "host" });
-    // var channelRtm = clientRtm.createChannel(options.channel_rtm);
     console.log(clientRtm);
     var result = new Promise(function (resolve) {
       resolve(channelRtm.getMembers());
@@ -279,15 +239,13 @@ document.addEventListener('DOMContentLoaded', () => {
     var showUserList = document.getElementById("user-list");
     showUserList.classList.remove("showUserList");
   }
-
+  // ユーザーリストの非表示にする
   function removeUserList() {
     var showUserList = document.getElementById("user-list");
     showUserList.classList.add("showUserList");
   }
-
+  //「 招待されました」メッセージをリモート側に送信
   function sendChannelMessage(msg) {
-    // clientRtm = AgoraRTM.createInstance(options.appid);
-    // channelRtm = clientRtm.createChannel(options.channel_rtm);
     var localMessage = msg;
     console.log(localMessage);
     channelRtm.sendMessage({
@@ -297,18 +255,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }).catch(function (err) {
       console.log("AgoraRTM client failed to sending role" + err);
     });
-
   }
 
+  //「 招待しましたメッセージをローカルに表示
   function sendChannelMessage2(memberId) {
-
     var localMessage = "RequestCall:" + memberId;
     $(".banner").append('<div class="alert alert-primary" role="alert">' + memberId +
       'を招待しました <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
-
     sendChannelMessage(localMessage);
   }
-
 
   // 招待メッセージ送信
   function call(memberId) {
@@ -318,8 +273,6 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log("招待メッセージ送信");
     }
   }
-
-
 
   // video画面表示
   function showVideo(channelName) {
@@ -341,19 +294,16 @@ document.addEventListener('DOMContentLoaded', () => {
   function removeVideo() {
     var showVideo = document.getElementById("new-mtg-view");
     showVideo.classList.add("new-mtg-view");
-    // var afterLogined = document.getElementById("after-logined");
-    // afterLogined.classList.add("after-logined");
   }
 
-
+  // 他人のチャンネルに参加する
   async function remoteJoin(uid) {
     await showVideo(uid);
     await $(".banner").remove();
 
   }
-
+  //「 招待されました」メッセージをリモートで表示
   function receiveChannelMessage() {
-
     channelRtm.on("MemberJoined", memberId => {
       console.log("MemberJoined: " + memberId);
       appendProc(memberId, memberId);
@@ -378,8 +328,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         }
       }
-
-
     });
   }
   // ログアウト
@@ -391,12 +339,10 @@ document.addEventListener('DOMContentLoaded', () => {
     $(".user-info").remove();
     var showUserList = document.getElementById("after-logined");
     showUserList.classList.add("after-logined");
-    // var LoginForm = document.getElementById("div_join");
-    // LoginForm.classList.remove("login-form");
     console.log("RTM Logout completed ");
   }
 
-  // index.htmlが表示されたときの動作」
+  // index.htmlが表示されたときの動作
   window.onload = function () {
     var channels = [];
     // チャンネル配列表示
@@ -424,13 +370,10 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("ホームに戻らない🥺");
       }
     });
-
-
   }
 
-
+  // 新規チャンネルを作成
   var channels = [];
-
   function addName() {
     var input = document.getElementById("text_name");
     var output = document.getElementById("output");
@@ -465,7 +408,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   }
-
+  // チャンネルを削除
   function removeChannel(channelName,channels) {
     var remove_obj = document.getElementById(channelName);
     console.log(remove_obj);
@@ -490,7 +433,6 @@ document.addEventListener('DOMContentLoaded', () => {
   async function shareScreen() {
     const screenClient = AgoraRTC.createClient({ mode: "live", codec: "h264", role: 'host' });
       var myShareUid = await screenClient.join(options.appid, options.channel, options.token || null, options.uid + "aaa");
-
       const screenTrack = await AgoraRTC.createScreenVideoTrack();
       await screenClient.publish(screenTrack);
       console.log('screenTrack', screenTrack)
@@ -501,9 +443,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // 画面共有終了ボタン表示
       var stopScreensharing = document.getElementById("stopScreensharing");
       stopScreensharing.classList.remove("stopScreensharing");
-      // document.querySelector('#share').append(playerContainer);
-      // screenTrack.play(playerContainer);
-
       console.log(screenTrack);
       $('#stopScreensharing').on('click', function() {
         unPublish(screenTrack);
@@ -512,7 +451,6 @@ document.addEventListener('DOMContentLoaded', () => {
         finishscreen(screenTrack,screenClient);
       });
       return
-
 }
 
 
@@ -545,7 +483,7 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log("画面ON");
   });
   }
-  // 画面共有終了
+  // 退出時の画面共有終了処理
   async function finishscreen(screenTrack,screenClient) {
     console.log(screenTrack);
    await screenTrack.stop();
@@ -567,7 +505,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const url = 'index.html'
       window.open(url, '_blank')
     }
-
   }
 
   // ローカルでのミュート機能
@@ -575,7 +512,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const level = localTracks.audioTrack.getVolumeLevel();
     console.log("local stream audio level", level);
     const mute = localTracks.audioTrack.setVolume(0);
-
     var muteON = document.getElementById("muteON");
     muteON.classList.add("stopScreensharing");
     var muteOFF = document.getElementById("muteOFF");
@@ -626,7 +562,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 自分の名前を表示
+  // ローカルUIDをビデオ表示時に表示
   function showMyUid() {
     $(".badge").remove();
     // trackID取得
@@ -677,8 +613,6 @@ document.addEventListener('DOMContentLoaded', () => {
   $('#removeUserList').on('click', function() {
     removeUserList();
   });
-
-
 
 
 });
