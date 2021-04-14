@@ -106,6 +106,7 @@ input {
   margin: 10px;
   width: 300px !important;
   height: 300px !important;
+  position: relative;
 }
 
 #local-player {
@@ -115,6 +116,12 @@ input {
 .player {
   width: 200px;
   height: 200px;
+}
+
+.badge {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 @media (max-width: 640px) {

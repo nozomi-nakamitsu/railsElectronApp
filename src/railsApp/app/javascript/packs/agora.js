@@ -96,7 +96,7 @@ $(document).on('turbolinks:load', function() {
           $('#local-player').append('<div class="player" id="agora_remote' + uid +
             '" style="float:left; height:100%;"></div>');
         }
-        // user.videoTrack.play('agora_remote' + uid);
+        user.videoTrack.play('agora_remote' + uid);
         localTracks.play('agora_remote' + uid);
       }
       if (mediaType === 'audio') {
@@ -563,8 +563,8 @@ $(document).on('turbolinks:load', function() {
     $(".badge").remove();
     // trackID取得
     var trackId = localTracks.videoTrack.getTrackId();
-    // $("[id*='agora-video-player-" + trackId + '\'' + ']').after('<div class="badge badge-pill badge-dark">' +
-    //   options.uid + '(あなた)</div>');
+    $("[id*='agora-video-player-" + trackId + '\'' + ']').append('<div class="badge badge-pill badge-dark">' +
+      options.uid + '(あなた)</div>');
     $("[id*='agora-video-player-" + trackId + '\'' + ']').addClass("arrange");
   }
 
