@@ -28,9 +28,18 @@
   </div>
 </div>
 <%# ビデオ表示画面 %>
+
 <div class="new-mtg-view" id="new-mtg-view">
+  <nav class="navbar navbar-expand-lg navbar-light" style="background-color:pink;">
+    <p class="navbar-brand my-auto">チャンネル参加者一覧</p>
+    <ul class="navbar-nav member-list my-auto">
+      <li class="nav-item my-auto">
+        <p class="navbar-text mx-2 my-auto"><%= current_user.uid%>(あなた)</p>
+      </li>
+    </ul>
+  </nav>
   <div class="flash"></div>
-  <h3 id="channelName"></h3>
+  <h3 id="channelName" class="mt-5"></h3>
   <button id="leave" type="button" class="btn btn-danger" id="leave">退出する</button>
   <button id="showUserList" type="button" class="btn btn-success">招待する</button>
   <button id="screensharing" type="button" class="btn btn-warning" style="color: white;">画面共有する</button>
@@ -54,7 +63,11 @@
     <tbody id="useradd">
     </tbody>
   </table>
-  <div id="local-player" class="player ">
+  <div>
   </div>
+  <div id="local-player">
+  </div>
+
+
 </div>
 <%= javascript_pack_tag 'agora' %>

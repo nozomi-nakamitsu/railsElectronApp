@@ -77,10 +77,16 @@ $(document).on('turbolinks:load', function() {
       if (mediaType === 'video') {
 
         if ($('#local-player' + uid).length === 0) {
-          $('#local-player').append('<div class="player" id="agora_remote' + uid +
-            '" style="float:left; height:100%;display:inline-block; margin-top:50px;"></div>');
+          $('#local-player').append('<div class="player arrange" id="agora_remote' + uid +
+            '" style="float:left; height:100%;"></div>');
         }
         user.videoTrack.play('agora_remote' + uid);
+        var trackId = user.videoTrack.getTrackId();
+        console.log(trackId);
+        console.log(user);
+        $("[id*='agora-video-player-" + trackId + '\'' + ']').append('<div class="badge badge-pill badge-dark">' +
+        uid + '</div>');
+        showChannelMemberslist(uid);
       }
       if (mediaType === 'audio') {
         user.audioTrack.play();
@@ -94,10 +100,15 @@ $(document).on('turbolinks:load', function() {
 
         if ($('#local-player' + uid).length === 0) {
           $('#local-player').append('<div class="player" id="agora_remote' + uid +
-            '" style="float:left; height:100%;display:inline-block;"></div>');
+            '" style="float:left; height:100%;"></div>');
         }
-        // user.videoTrack.play('agora_remote' + uid);
+        user.videoTrack.play('agora_remote' + uid);
         localTracks.play('agora_remote' + uid);
+        var trackId = user.videoTrack.getTrackId();
+        $("[id*='agora-video-player-" + trackId + '\'' + ']').append('<div class="badge badge-pill badge-dark">' +
+        uid + '</div>');
+        console.log(user);
+        showChannelMemberslist(uid);
       }
       if (mediaType === 'audio') {
         user.audioTrack.play();
@@ -118,6 +129,8 @@ $(document).on('turbolinks:load', function() {
     delete remoteUsers[id];
     //$(`#player-wrapper-${id}`).remove();
     $('#agora_remote' + id).remove();
+    // 参加者一覧から名前削除
+      removeChannelMemberslist(user.uid)
   }
   async function join(channelName) {
 
@@ -197,6 +210,7 @@ $(document).on('turbolinks:load', function() {
       redirectToHome.classList.add("showHome");
       $("#channelName").text("チャネル名:" + channelName);
       removeVideo()
+    
     }
     // ABCの順番で処理を回す
     const processAll = async function () {
@@ -206,7 +220,7 @@ $(document).on('turbolinks:load', function() {
     }
 
     processAll()
-    console.log( $('#agora_remote' +  options.uid + "aaa").length);
+    console.log( $('#agora_remote' +  options.uid + "scree").length);
     window.location.reload();
   }
   // ログインしているユーザー名を取得
@@ -432,7 +446,7 @@ $(document).on('turbolinks:load', function() {
   // 画面共有
   async function shareScreen() {
     const screenClient = AgoraRTC.createClient({ mode: "live", codec: "h264", role: 'host' });
-      var myShareUid = await screenClient.join(options.appid, options.channel, options.token || null, options.uid + "aaa");
+      var myShareUid = await screenClient.join(options.appid, options.channel, options.token || null, options.uid + "screen");
       const screenTrack = await AgoraRTC.createScreenVideoTrack();
       await screenClient.publish(screenTrack);
       console.log('screenTrack', screenTrack)
@@ -486,8 +500,8 @@ $(document).on('turbolinks:load', function() {
    await screenTrack.close();
    screenTrack = undefined;
    await screenClient.leave();
-   if( $('#agora_remote' +  options.uid + "aaa").length>=1){
-    $("[id*='aaa']").remove();
+   if( $('#agora_remote' +  options.uid + "scree").length>=1){
+    $("[id*='scree']").remove();
    }
 }
 
@@ -537,6 +551,7 @@ $(document).on('turbolinks:load', function() {
     var videoON = document.getElementById("videoON");
     videoON.classList.remove("stopScreensharing");
     await showMyUid();
+    await showUserUid()
   }
   //ビデオON機能
   async function videoON() {
@@ -547,6 +562,7 @@ $(document).on('turbolinks:load', function() {
     videoON.classList.add("stopScreensharing");
     console.log("ビデオON");
     await showMyUid();
+    await showUserUid()
   }
   // チャンネル名が半角英数字かチェックする
   function isHanEisu(str) {
@@ -563,10 +579,29 @@ $(document).on('turbolinks:load', function() {
     $(".badge").remove();
     // trackID取得
     var trackId = localTracks.videoTrack.getTrackId();
-    $("[id*='agora-video-player-" + trackId + '\'' + ']').after('<div class="badge badge-pill badge-dark">' +
+    $("[id*='agora-video-player-" + trackId + '\'' + ']').append('<div class="badge badge-pill badge-dark">' +
       options.uid + '(あなた)</div>');
+    $("[id*='agora-video-player-" + trackId + '\'' + ']').addClass("arrange");
   }
 
+  // リモートユーザーのUIDをビデオ表示時に表示
+    function showUserUid() {
+      for (let key in remoteUsers) {
+        console.log('key:' + key + ' value:' + remoteUsers[key].videoTrack);
+        var trackId=remoteUsers[key].videoTrack
+        $("[id*='agora-video-player-" + trackId + '\'' + ']').append('<div class="badge badge-pill badge-dark">' +
+        key + '</div>');
+      }
+    }
+  // メンバーリストに名前表示
+  function showChannelMemberslist(uid){
+    $(".member-list").append(`<li class="nav-item my-auto" id=${uid}><p class="navbar-text mx-2 my-auto">${uid}</p></li>`);
+  }
+  // メンバーリストに名前非表示
+  function removeChannelMemberslist(uid){
+
+    $("#"+uid).remove();
+  }
 
 
   //イベント呼び出し
@@ -589,10 +624,6 @@ $(document).on('turbolinks:load', function() {
     shareScreen();
   });
 
-  // $('#stopScreensharing').on('click', function() {
-  //   unPublish();
-  // });
-
   $('#muteON').on('click', function() {
     muteON();
   });
@@ -608,6 +639,10 @@ $(document).on('turbolinks:load', function() {
   });
   $('#removeUserList').on('click', function() {
     removeUserList();
+  });
+
+  $('#scre').on('click', function() {
+    showUserUid();
   });
 
 
