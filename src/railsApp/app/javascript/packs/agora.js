@@ -86,6 +86,7 @@ $(document).on('turbolinks:load', function() {
         console.log(user);
         $("[id*='agora-video-player-" + trackId + '\'' + ']').append('<div class="badge badge-pill badge-dark">' +
         uid + '</div>');
+        $("[id*='agora-video-player-" + trackId + '\'' + ']').append(`'<img src="/assets/screensizebtn.png" width="20" height="20" class="screenSizeBtn" id=${trackId}>'`);
         showChannelMemberslist(uid);
       }
       if (mediaType === 'audio') {
@@ -107,6 +108,7 @@ $(document).on('turbolinks:load', function() {
         var trackId = user.videoTrack.getTrackId();
         $("[id*='agora-video-player-" + trackId + '\'' + ']').append('<div class="badge badge-pill badge-dark">' +
         uid + '</div>');
+        $("[id*='agora-video-player-" + trackId + '\'' + ']').append(`'<img src="/assets/screensizebtn.png" width="20" height="20" class="screenSizeBtn" id=${trackId}>'`);
         console.log(user);
         showChannelMemberslist(uid);
       }
@@ -162,7 +164,6 @@ $(document).on('turbolinks:load', function() {
     showMyUid();
     // publish local tracks to channel
     console.log(Object.values(localTracks));
-    // debugger
     await client.publish(Object.values(localTracks));
     console.log("publish success");
 
@@ -581,6 +582,7 @@ $(document).on('turbolinks:load', function() {
     var trackId = localTracks.videoTrack.getTrackId();
     $("[id*='agora-video-player-" + trackId + '\'' + ']').append('<div class="badge badge-pill badge-dark">' +
       options.uid + '(あなた)</div>');
+    $("[id*='agora-video-player-" + trackId + '\'' + ']').append(`'<img src="/assets/screensizebtn.png" width="20" height="20" class="screenSizeBtn" id=${trackId}>'`);
     $("[id*='agora-video-player-" + trackId + '\'' + ']').addClass("arrange");
   }
 
@@ -591,6 +593,7 @@ $(document).on('turbolinks:load', function() {
         var trackId=remoteUsers[key].videoTrack
         $("[id*='agora-video-player-" + trackId + '\'' + ']').append('<div class="badge badge-pill badge-dark">' +
         key + '</div>');
+        $("[id*='agora-video-player-" + trackId + '\'' + ']').append(`'<img src="/assets/screensizebtn.png" width="20" height="20" class="screenSizeBtn" id=${trackId}>'`);
       }
     }
   // メンバーリストに名前表示
