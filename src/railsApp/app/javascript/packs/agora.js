@@ -84,9 +84,9 @@ $(document).on('turbolinks:load', function() {
         var trackId = user.videoTrack.getTrackId();
         console.log(trackId);
         console.log(user);
-        debugger
         $("[id*='agora-video-player-" + trackId + '\'' + ']').append('<div class="badge badge-pill badge-dark">' +
         uid + '</div>');
+        showChannelMemberslist(uid);
       }
       if (mediaType === 'audio') {
         user.audioTrack.play();
@@ -108,7 +108,7 @@ $(document).on('turbolinks:load', function() {
         $("[id*='agora-video-player-" + trackId + '\'' + ']').append('<div class="badge badge-pill badge-dark">' +
         uid + '</div>');
         console.log(user);
-        debugger
+        showChannelMemberslist(uid);
       }
       if (mediaType === 'audio') {
         user.audioTrack.play();
@@ -129,6 +129,8 @@ $(document).on('turbolinks:load', function() {
     delete remoteUsers[id];
     //$(`#player-wrapper-${id}`).remove();
     $('#agora_remote' + id).remove();
+    // 参加者一覧から名前削除
+      removeChannelMemberslist(user.uid)
   }
   async function join(channelName) {
 
@@ -208,6 +210,7 @@ $(document).on('turbolinks:load', function() {
       redirectToHome.classList.add("showHome");
       $("#channelName").text("チャネル名:" + channelName);
       removeVideo()
+    
     }
     // ABCの順番で処理を回す
     const processAll = async function () {
@@ -590,6 +593,16 @@ $(document).on('turbolinks:load', function() {
         key + '</div>');
       }
     }
+  // メンバーリストに名前表示
+  function showChannelMemberslist(uid){
+    $(".member-list").append(`<li class="nav-item my-auto" id=${uid}><p class="navbar-text mx-2 my-auto">${uid}</p></li>`);
+  }
+  // メンバーリストに名前非表示
+  function removeChannelMemberslist(uid){
+
+    $("#"+uid).remove();
+  }
+
 
   //イベント呼び出し
   $('#showVideo').on('click', function() {
@@ -610,10 +623,6 @@ $(document).on('turbolinks:load', function() {
   $('#screensharing').on('click', function() {
     shareScreen();
   });
-
-  // $('#stopScreensharing').on('click', function() {
-  //   unPublish();
-  // });
 
   $('#muteON').on('click', function() {
     muteON();
