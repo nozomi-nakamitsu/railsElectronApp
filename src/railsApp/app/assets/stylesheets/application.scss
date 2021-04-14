@@ -16,6 +16,9 @@
 
  // index.html.erb
  @import "bootstrap/scss/bootstrap";
+ $fa-font-path: '@fortawesome/fontawesome-free/webfonts';
+@import "@fortawesome/fontawesome-free/scss/fontawesome";
+@import "@fortawesome/fontawesome-free/scss/regular";
  .banner {
   padding: 0;
   background-color: #52575c;
