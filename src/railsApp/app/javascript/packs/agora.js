@@ -81,6 +81,10 @@ $(document).on('turbolinks:load', function() {
             '" style="float:left; height:100%;"></div>');
         }
         user.videoTrack.play('agora_remote' + uid);
+        var trackId = user.videoTrack.getTrackId();
+        console.log(trackId);
+        $("[id*='agora-video-player-" + trackId + '\'' + ']').append('<div class="badge badge-pill badge-dark">' +
+        uid + '</div>');
       }
       if (mediaType === 'audio') {
         user.audioTrack.play();
@@ -98,6 +102,9 @@ $(document).on('turbolinks:load', function() {
         }
         user.videoTrack.play('agora_remote' + uid);
         localTracks.play('agora_remote' + uid);
+        var trackId = user.videoTrack.getTrackId();
+        $("[id*='agora-video-player-" + trackId + '\'' + ']').append('<div class="badge badge-pill badge-dark">' +
+        uid + '</div>');
       }
       if (mediaType === 'audio') {
         user.audioTrack.play();
@@ -537,6 +544,7 @@ $(document).on('turbolinks:load', function() {
     var videoON = document.getElementById("videoON");
     videoON.classList.remove("stopScreensharing");
     await showMyUid();
+    await showUserUid()
   }
   //ビデオON機能
   async function videoON() {
@@ -547,6 +555,7 @@ $(document).on('turbolinks:load', function() {
     videoON.classList.add("stopScreensharing");
     console.log("ビデオON");
     await showMyUid();
+    await showUserUid()
   }
   // チャンネル名が半角英数字かチェックする
   function isHanEisu(str) {
@@ -568,7 +577,15 @@ $(document).on('turbolinks:load', function() {
     $("[id*='agora-video-player-" + trackId + '\'' + ']').addClass("arrange");
   }
 
-
+  // リモートユーザーのUIDをビデオ表示時に表示
+    function showUserUid() {
+      for (let key in remoteUsers) {
+        console.log('key:' + key + ' value:' + remoteUsers[key].videoTrack);
+        var trackId=remoteUsers[key].videoTrack
+        $("[id*='agora-video-player-" + trackId + '\'' + ']').append('<div class="badge badge-pill badge-dark">' +
+        key + '</div>');
+      }
+    }
 
   //イベント呼び出し
   $('#showVideo').on('click', function() {
@@ -609,6 +626,10 @@ $(document).on('turbolinks:load', function() {
   });
   $('#removeUserList').on('click', function() {
     removeUserList();
+  });
+
+  $('#aaa').on('click', function() {
+    showUserUid();
   });
 
 
