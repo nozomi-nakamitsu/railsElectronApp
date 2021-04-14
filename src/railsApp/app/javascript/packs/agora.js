@@ -83,6 +83,8 @@ $(document).on('turbolinks:load', function() {
         user.videoTrack.play('agora_remote' + uid);
         var trackId = user.videoTrack.getTrackId();
         console.log(trackId);
+        console.log(user);
+        debugger
         $("[id*='agora-video-player-" + trackId + '\'' + ']').append('<div class="badge badge-pill badge-dark">' +
         uid + '</div>');
       }
@@ -105,6 +107,8 @@ $(document).on('turbolinks:load', function() {
         var trackId = user.videoTrack.getTrackId();
         $("[id*='agora-video-player-" + trackId + '\'' + ']').append('<div class="badge badge-pill badge-dark">' +
         uid + '</div>');
+        console.log(user);
+        debugger
       }
       if (mediaType === 'audio') {
         user.audioTrack.play();
@@ -213,7 +217,7 @@ $(document).on('turbolinks:load', function() {
     }
 
     processAll()
-    console.log( $('#agora_remote' +  options.uid + "aaa").length);
+    console.log( $('#agora_remote' +  options.uid + "scree").length);
     window.location.reload();
   }
   // ログインしているユーザー名を取得
@@ -439,7 +443,7 @@ $(document).on('turbolinks:load', function() {
   // 画面共有
   async function shareScreen() {
     const screenClient = AgoraRTC.createClient({ mode: "live", codec: "h264", role: 'host' });
-      var myShareUid = await screenClient.join(options.appid, options.channel, options.token || null, options.uid + "aaa");
+      var myShareUid = await screenClient.join(options.appid, options.channel, options.token || null, options.uid + "screen");
       const screenTrack = await AgoraRTC.createScreenVideoTrack();
       await screenClient.publish(screenTrack);
       console.log('screenTrack', screenTrack)
@@ -493,8 +497,8 @@ $(document).on('turbolinks:load', function() {
    await screenTrack.close();
    screenTrack = undefined;
    await screenClient.leave();
-   if( $('#agora_remote' +  options.uid + "aaa").length>=1){
-    $("[id*='aaa']").remove();
+   if( $('#agora_remote' +  options.uid + "scree").length>=1){
+    $("[id*='scree']").remove();
    }
 }
 
@@ -628,7 +632,7 @@ $(document).on('turbolinks:load', function() {
     removeUserList();
   });
 
-  $('#aaa').on('click', function() {
+  $('#scre').on('click', function() {
     showUserUid();
   });
 
