@@ -220,7 +220,6 @@ $(document).on('turbolinks:load', function() {
       redirectToHome.classList.add("showHome");
       $("#channelName").text("チャネル名:" + channelName);
       removeVideo()
-    
     }
     // ABCの順番で処理を回す
     const processAll = async function () {
@@ -269,11 +268,11 @@ $(document).on('turbolinks:load', function() {
     showUserList.classList.add("showUserList");
   }
   //「 招待されました」メッセージをリモート側に送信
-  function sendChannelMessage(msg) {
+  function sendChannelMessage(msg,currentChannnelName) {
     var localMessage = msg;
     console.log(localMessage);
     channelRtm.sendMessage({
-      text: localMessage
+      text: localMessage+":"+currentChannnelName
     }).then(function () {
       console.log("AgoraRTM client succeed in sending channel message: " + localMessage);
     }).catch(function (err) {
@@ -286,7 +285,8 @@ $(document).on('turbolinks:load', function() {
     var localMessage = "RequestCall:" + memberId;
     $(".banner").append('<div class="alert alert-primary" role="alert">' + memberId +
       'を招待しました <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
-    sendChannelMessage(localMessage);
+      var currentChannnelName=  $("#channelName").text()
+      sendChannelMessage(localMessage,currentChannnelName);
   }
 
   // 招待メッセージ送信
@@ -312,7 +312,7 @@ $(document).on('turbolinks:load', function() {
     // home戻るボタンを表示
     var redirectToHome = document.getElementById("home");
     redirectToHome.classList.remove("showHome");
-    $("#channelName").text("チャネル名:" + channelName);
+    $("#channelName").text(channelName);
   }
   // video画面非表示
   function removeVideo() {
@@ -338,6 +338,7 @@ $(document).on('turbolinks:load', function() {
       var result = msgtxt.split(':');
       console.log("msg1 " + result[0]);
       console.log("msg2 " + result[1]);
+      console.log("msg2 " + result[2]);
       if(result[1]===undefined){
         $("#reaction"+senderId).text(result[0]);
         $(function(){
@@ -350,11 +351,11 @@ $(document).on('turbolinks:load', function() {
         if (options.uid == result[1]) {
           console.log(senderId + "invited you.");
           $(".banner").append('<div class="alert alert-primary" role="alert">' + senderId +
-            'があなたを招待しました<button class="btn btn-primary remoteJoin")">参加する</button> <button type="button" class="close" data-dismiss="alert">&times;</button></div>'
+            'さんが'+result[2]+'チャンネルへあなたを招待しました<button class="btn btn-primary remoteJoin")">参加する</button> <button type="button" class="close" data-dismiss="alert">&times;</button></div>'
           );
-          options.channel = senderId;
+          options.channel = result[2];
           $('.remoteJoin').on('click', function() {
-            remoteJoin(senderId);
+            remoteJoin(result[2]);
           });
         }
       }
