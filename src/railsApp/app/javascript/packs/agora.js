@@ -646,7 +646,6 @@ $(document).on('turbolinks:load', function() {
       }
       // 選んだ物を大きくする
       const makeLarge = async function () {
- 
         $("[id*='agora-video-player-" + trackId + '\'' + ']').prependTo("#local-player");
         $("[id*='agora-video-player-" + trackId + '\'' + ']').removeClass("arrange");
         $("[id*='agora-video-player-" + trackId + '\'' + ']').addClass("makeScreenLarge");
@@ -668,7 +667,12 @@ $(document).on('turbolinks:load', function() {
       }
       processAll();
     }
-
+  // ギャラリー表示
+  async function gallery() {
+    await $(".makeScreenLarge").appendTo("#local-player");
+    await $(".makeScreenLarge").addClass("arrange");
+    await $(".makeScreenLarge").removeClass("makeScreenLarge");
+  }
 
 
 
@@ -712,6 +716,9 @@ $(document).on('turbolinks:load', function() {
 
   $('#scre').on('click', function() {
     showUserUid();
+  });
+  $('#gallery').on('click', function() {
+    gallery();
   });
 
 
