@@ -28,7 +28,6 @@
   </div>
 </div>
 <%# ビデオ表示画面 %>
-
 <div class="new-mtg-view" id="new-mtg-view">
   <nav class="navbar navbar-expand-lg navbar-light" style="background-color:pink;">
     <p class="navbar-brand my-auto">チャンネル参加者一覧</p>
@@ -40,6 +39,7 @@
   </nav>
   <div class="flash"></div>
   <h3 id="channelName" class="mt-5"></h3>
+
   <button id="leave" type="button" class="btn btn-danger" id="leave">退出する</button>
   <button id="showUserList" type="button" class="btn btn-success">招待する</button>
   <button id="screensharing" type="button" class="btn btn-warning" style="color: white;">画面共有する</button>
@@ -53,6 +53,12 @@
   <button id="videoON" type="button" class="btn btn-secondary stopScreensharing"
     style="color: white;">ビデオをONにする</button>
   <button id="gallery" type="button" class="btn btn-dark" style="color: white;">ギャラリー表示</button>
+  <button type="button" class="btn btn-primary" id="reactionCreate">リアクションする</button>
+  <div class="reaction_btn" id="reactionsList">
+    <h1 id="good" class="reactions">👍</h1>
+    <h1 id="pien" class="reactions">🥺</h1>
+  </div>
+
   <table class="table my-5 showUserList" id="user-list">
     <thead>
       <tr>

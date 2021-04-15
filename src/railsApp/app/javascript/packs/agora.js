@@ -86,6 +86,7 @@ $(document).on('turbolinks:load', function() {
         console.log(user);
         $("[id*='agora-video-player-" + trackId + '\'' + ']').append('<div class="badge badge-pill badge-dark">' +
         uid + '</div>');
+        $("[id*='agora-video-player-" + trackId + '\'' + ']').append(`'<a id="reaction${uid}" class="reaction"></a>'`);
         $("[id*='agora-video-player-" + trackId + '\'' + ']').append(`'<img src="/assets/screensizebtn.png" width="20" height="20" class="screenSizeBtn" id=${trackId}>'`);
         $("#"+trackId).on('click', function() {
           makeLocalScreenLarge(trackId,uid);
@@ -111,6 +112,7 @@ $(document).on('turbolinks:load', function() {
         var trackId = user.videoTrack.getTrackId();
         $("[id*='agora-video-player-" + trackId + '\'' + ']').append('<div class="badge badge-pill badge-dark">' +
         uid + '</div>');
+        $("[id*='agora-video-player-" + trackId + '\'' + ']').append(`'<a id="reaction${uid}" class="reaction"></a>'`);
         $("[id*='agora-video-player-" + trackId + '\'' + ']').append(`'<img src="/assets/screensizebtn.png" width="20" height="20" class="screenSizeBtn" id=${trackId}>'`);
         $("#"+trackId).on('click', function() {
           makeLocalScreenLarge(trackId);
@@ -330,13 +332,20 @@ $(document).on('turbolinks:load', function() {
       console.log("MemberJoined: " + memberId);
       appendProc(memberId, memberId);
     });
-
     channelRtm.on("ChannelMessage", function (sentMessage, senderId) {
       console.log("AgoraRTM client got message: " + JSON.stringify(sentMessage) + " from " + senderId);
       var msgtxt = sentMessage.text
       var result = msgtxt.split(':');
       console.log("msg1 " + result[0]);
       console.log("msg2 " + result[1]);
+      if(result[1]===undefined){
+        $("#reaction"+senderId).text(result[0]);
+        $(function(){
+          setTimeout(function(){
+            $("#reaction"+senderId).text("");
+          },10000);
+      });
+      }
       if (result[0] == "RequestCall") {
         if (options.uid == result[1]) {
           console.log(senderId + "invited you.");
@@ -347,7 +356,6 @@ $(document).on('turbolinks:load', function() {
           $('.remoteJoin').on('click', function() {
             remoteJoin(senderId);
           });
-
         }
       }
     });
@@ -672,7 +680,40 @@ $(document).on('turbolinks:load', function() {
     await $(".makeScreenLarge").addClass("arrange");
     await $(".makeScreenLarge").removeClass("makeScreenLarge");
   }
+// グッド表示
+  function good (){
+    // ローカルでリアクションボタンを押す
+    channelRtm.sendMessage({
+      text: "👍"
+    }).then(function () {
+      console.log("AgoraRTM client succeed in sending channel message: 👍" );
+    }).catch(function (err) {
+      console.log("AgoraRTM client failed to sending role" + err);
+    });
+  }
 
+// ピエン表示
+  function pien (){
+    // ローカルでリアクションボタンを押す
+    channelRtm.sendMessage({
+      text: "🥺"
+    }).then(function () {
+      console.log("AgoraRTM client succeed in sending channel message: 🥺" );
+    }).catch(function (err) {
+      console.log("AgoraRTM client failed to sending role" + err);
+    });
+  }
+
+  function reactionCreate(){
+    const reactionsList = document.getElementById("reactionsList");
+    if(reactionsList.style.display=="block"){
+      // noneで非表示
+      reactionsList.style.display ="none";
+    }else{
+      // blockで表示
+      reactionsList.style.display ="block";
+    }
+  }
 
 
 
@@ -719,7 +760,15 @@ $(document).on('turbolinks:load', function() {
   $('#gallery').on('click', function() {
     gallery();
   });
-
+  $('#good').on('click', function() {
+    good();
+  });
+  $('#pien').on('click', function() {
+    pien();
+  });
+  $('#reactionCreate').on('click', function() {
+    reactionCreate();
+  });
 
 });
 
