@@ -564,7 +564,6 @@ $(document).on('turbolinks:load', function() {
     await   $("#"+trackId).on('click', function() {
       makeLocalScreenLarge(trackId);
     });
-    console.log("aaa");
   }
   //ビデオON機能
   async function videoON() {
