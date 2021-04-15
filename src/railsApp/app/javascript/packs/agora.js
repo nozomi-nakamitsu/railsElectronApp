@@ -283,9 +283,9 @@ $(document).on('turbolinks:load', function() {
   //「 招待しましたメッセージをローカルに表示
   function sendChannelMessage2(memberId) {
     var localMessage = "RequestCall:" + memberId;
+    var currentChannnelName=  $("#channelName").text()
     $(".banner").append('<div class="alert alert-primary" role="alert">' + memberId +
-      'を招待しました <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
-      var currentChannnelName=  $("#channelName").text()
+      'を'+ currentChannnelName+'招待しました <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
       sendChannelMessage(localMessage,currentChannnelName);
   }
 
