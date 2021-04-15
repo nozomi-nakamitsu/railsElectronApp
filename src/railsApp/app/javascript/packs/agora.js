@@ -703,7 +703,7 @@ $(document).on('turbolinks:load', function() {
       console.log("AgoraRTM client failed to sending role" + err);
     });
   }
-
+  // リアクションリストの表示・非表示の切り替え
   function reactionCreate(){
     const reactionsList = document.getElementById("reactionsList");
     if(reactionsList.style.display=="block"){
