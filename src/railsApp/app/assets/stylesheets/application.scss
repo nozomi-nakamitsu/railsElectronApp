@@ -131,6 +131,17 @@ input {
   top: 0;
   right: 0;
 }
+
+.reaction {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+#reactionsList{
+  display: none;
+}
+
 // 画面サイズ拡大
 .makeScreenLarge {
   margin:auto;
