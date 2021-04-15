@@ -86,6 +86,10 @@ $(document).on('turbolinks:load', function() {
         console.log(user);
         $("[id*='agora-video-player-" + trackId + '\'' + ']').append('<div class="badge badge-pill badge-dark">' +
         uid + '</div>');
+        $("[id*='agora-video-player-" + trackId + '\'' + ']').append(`'<img src="/assets/screensizebtn.png" width="20" height="20" class="screenSizeBtn" id=${trackId}>'`);
+        $("#"+trackId).on('click', function() {
+          makeLocalScreenLarge(trackId,uid);
+        });
         showChannelMemberslist(uid);
       }
       if (mediaType === 'audio') {
@@ -107,6 +111,10 @@ $(document).on('turbolinks:load', function() {
         var trackId = user.videoTrack.getTrackId();
         $("[id*='agora-video-player-" + trackId + '\'' + ']').append('<div class="badge badge-pill badge-dark">' +
         uid + '</div>');
+        $("[id*='agora-video-player-" + trackId + '\'' + ']').append(`'<img src="/assets/screensizebtn.png" width="20" height="20" class="screenSizeBtn" id=${trackId}>'`);
+        $("#"+trackId).on('click', function() {
+          makeLocalScreenLarge(trackId);
+        });
         console.log(user);
         showChannelMemberslist(uid);
       }
@@ -129,6 +137,7 @@ $(document).on('turbolinks:load', function() {
     delete remoteUsers[id];
     //$(`#player-wrapper-${id}`).remove();
     $('#agora_remote' + id).remove();
+    $(".makeScreenLarge").remove();
     // 参加者一覧から名前削除
       removeChannelMemberslist(user.uid)
   }
@@ -162,7 +171,6 @@ $(document).on('turbolinks:load', function() {
     showMyUid();
     // publish local tracks to channel
     console.log(Object.values(localTracks));
-    // debugger
     await client.publish(Object.values(localTracks));
     console.log("publish success");
 
@@ -551,7 +559,11 @@ $(document).on('turbolinks:load', function() {
     var videoON = document.getElementById("videoON");
     videoON.classList.remove("stopScreensharing");
     await showMyUid();
-    await showUserUid()
+    await showUserUid();
+    var trackId=localTracks.videoTrack.getTrackId();
+    await   $("#"+trackId).on('click', function() {
+      makeLocalScreenLarge(trackId);
+    });
   }
   //ビデオON機能
   async function videoON() {
@@ -562,7 +574,11 @@ $(document).on('turbolinks:load', function() {
     videoON.classList.add("stopScreensharing");
     console.log("ビデオON");
     await showMyUid();
-    await showUserUid()
+    await showUserUid();
+    var trackId=localTracks.videoTrack.getTrackId();
+    $("#"+trackId).on('click', function() {
+      makeLocalScreenLarge(trackId);
+    });
   }
   // チャンネル名が半角英数字かチェックする
   function isHanEisu(str) {
@@ -575,22 +591,36 @@ $(document).on('turbolinks:load', function() {
   }
 
   // ローカルUIDをビデオ表示時に表示
-  function showMyUid() {
+  async function showMyUid() {
     $(".badge").remove();
     // trackID取得
     var trackId = localTracks.videoTrack.getTrackId();
     $("[id*='agora-video-player-" + trackId + '\'' + ']').append('<div class="badge badge-pill badge-dark">' +
       options.uid + '(あなた)</div>');
+    if($('#'+trackId).length){
+    $("#" +trackId).remove();
+    }
+    $("[id*='agora-video-player-" + trackId + '\'' + ']').append(`'<img src="/assets/screensizebtn.png" width="20" height="20" class="screenSizeBtn" id=${trackId}>'`);
+    await $("#"+trackId).on('click', function() {
+      makeLocalScreenLarge(trackId);
+    });
     $("[id*='agora-video-player-" + trackId + '\'' + ']').addClass("arrange");
   }
 
   // リモートユーザーのUIDをビデオ表示時に表示
-    function showUserUid() {
+    async function showUserUid() {
       for (let key in remoteUsers) {
         console.log('key:' + key + ' value:' + remoteUsers[key].videoTrack);
         var trackId=remoteUsers[key].videoTrack
         $("[id*='agora-video-player-" + trackId + '\'' + ']').append('<div class="badge badge-pill badge-dark">' +
         key + '</div>');
+        if($('#'+trackId).length){
+          $("#" +trackId).remove();
+          }
+        $("[id*='agora-video-player-" + trackId + '\'' + ']').append(`'<img src="/assets/screensizebtn.png" width="20" height="20" class="screenSizeBtn" id=${trackId}>'`);
+        await $("#"+trackId).on('click', function() {
+          makeLocalScreenLarge(trackId,key);
+        });
       }
     }
   // メンバーリストに名前表示
@@ -602,6 +632,48 @@ $(document).on('turbolinks:load', function() {
 
     $("#"+uid).remove();
   }
+
+
+
+    //画面サイズ変更
+    async function makeLocalScreenLarge(trackId,uid){
+      // 今大きい物を小さくする
+      const makeSmall = async function () {
+        await $(".makeScreenLarge").appendTo("#local-player");
+        await $(".makeScreenLarge").addClass("arrange");
+        await $(".makeScreenLarge").removeClass("makeScreenLarge");
+      }
+      // 選んだ物を大きくする
+      const makeLarge = async function () {
+        $("[id*='agora-video-player-" + trackId + '\'' + ']').prependTo("#local-player");
+        $("[id*='agora-video-player-" + trackId + '\'' + ']').removeClass("arrange");
+        $("[id*='agora-video-player-" + trackId + '\'' + ']').addClass("makeScreenLarge");
+
+      }
+      const removeDefaltElement = async function () {
+        if(!(uid==undefined)){
+          $("#"+"agora_remote"+uid).remove();
+        }
+      }
+
+      // 順番で処理を回す
+      const processAll = async function () {
+        if($(".makeScreenLarge").length){
+          await makeSmall();
+        }
+        await makeLarge();
+        await removeDefaltElement();
+      }
+      processAll();
+    }
+  // ギャラリー表示
+  async function gallery() {
+    await $(".makeScreenLarge").appendTo("#local-player");
+    await $(".makeScreenLarge").addClass("arrange");
+    await $(".makeScreenLarge").removeClass("makeScreenLarge");
+  }
+
+
 
 
   //イベント呼び出し
@@ -643,6 +715,9 @@ $(document).on('turbolinks:load', function() {
 
   $('#scre').on('click', function() {
     showUserUid();
+  });
+  $('#gallery').on('click', function() {
+    gallery();
   });
 
 

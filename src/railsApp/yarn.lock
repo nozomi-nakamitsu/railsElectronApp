@@ -848,6 +848,11 @@
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
   integrity sha512-5a6wqoJV/xEdbRNKVo6I4hO3VjyDq//8q2f9I6PBAvMesJHFauXDorcNCsr9RzvsZnaWi5NYCcfyqP1QeFHFbw==
 
+"@fortawesome/fontawesome-free@^5.15.3":
+  version "5.15.3"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.15.3.tgz#c36ffa64a2a239bf948541a97b6ae8d729e09a9a"
+  integrity sha512-rFnSUN/QOtnOAgqFRooTA3H57JLDm0QEG/jPdk+tLQNL/eWd+Aok8g3qCI+Q1xuDPWpGW/i9JySpJVsq8Q0s9w==
+
 "@npmcli/move-file@^1.0.1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@npmcli/move-file/-/move-file-1.1.2.tgz#1a82c3e372f7cae9253eb66d72543d6b8685c674"
@@ -1130,6 +1135,21 @@ aggregate-error@^3.0.0:
   dependencies:
     clean-stack "^2.0.0"
     indent-string "^4.0.0"
+
+agora-rtc-sdk-ng@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/agora-rtc-sdk-ng/-/agora-rtc-sdk-ng-4.4.0.tgz#ea036cab115f8f206e654e258ffce175548048ad"
+  integrity sha512-wcXLPL9+5BwRXlALm2LYADMRALC2Q76On/BGgJgEmURnnIdJkiWito6YKrXsumkxvnzCGlkPgIt6QoLVqnAYug==
+
+agora-rtc-sdk@^3.5.0:
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/agora-rtc-sdk/-/agora-rtc-sdk-3.5.1.tgz#de7d065f9ee8fb20fca823adfed3689a67014c94"
+  integrity sha512-DO3AzlE1UxXFhrMsPi0pHv1HRUfqUK1SSdquSbDNybsrnM5EicaZjnLdRSnvAf49JWf3XsPkYFeSSMiJfz9PbA==
+
+agora-rtm-sdk@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/agora-rtm-sdk/-/agora-rtm-sdk-1.4.2.tgz#d4595b27e2bc24d554403397f0ae1e5caa5bb602"
+  integrity sha512-SJ0hOP5RfR0UAWEH0Hsm7YF5V1WqIxw8rEr5nbBwQmZVc9zXefMg9o5hHhKYR2LcYP9PYMO9zmpueCNImojktw==
 
 ajv-errors@^1.0.0:
   version "1.0.1"
