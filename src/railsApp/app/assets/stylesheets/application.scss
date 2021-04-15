@@ -131,6 +131,16 @@ input {
   top: 0;
   right: 0;
 }
+// 画面サイズ拡大
+.makeScreenLarge {
+  margin:auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  max-width: 80% !important;
+  min-height: 700px !important;
+  position: relative;
+  flex-wrap: nowrap;
+}
 
 @media (max-width: 640px) {
   .player {
@@ -138,3 +148,4 @@ input {
     height: 240px;
   }
 }
+
