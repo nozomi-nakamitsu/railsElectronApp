@@ -706,12 +706,12 @@ $(document).on('turbolinks:load', function() {
   // リアクションリストの表示・非表示の切り替え
   function reactionCreate(){
     const reactionsList = document.getElementById("reactionsList");
-    if(reactionsList.style.display=="block"){
+    if(reactionsList.style.display=="flex"){
       // noneで非表示
       reactionsList.style.display ="none";
     }else{
       // blockで表示
-      reactionsList.style.display ="block";
+      reactionsList.style.display ="flex";
     }
   }
 
